@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Jood</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D1117;
+      --bg2:       #111820;
+      --panel:     #0F1A24;
+      --border:    #1E3A4A;
+      --border2:   #2A5A6E;
+      --green:     #00FF88;
+      --green-dim: #00C466;
+      --blue:      #4DBBFF;
+      --blue-dim:  #2A7AAA;
+      --blue-bg:   rgba(77,187,255,0.06);
+      --text:      #C8D8E0;
+      --muted:     #4A7080;
+      --mono:      'Share Tech Mono', monospace;
+      --sans:      'Rajdhani', sans-serif;
+      --radius:    4px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* scanline */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-family: var(--mono); font-size: 1rem; color: var(--green); letter-spacing: 0.05em; text-decoration: none; }
+    .logo span { color: var(--muted); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      font-family: var(--mono); font-size: 0.75rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+    }
+    nav ul a:hover, nav ul a.active { color: var(--green); }
+
+    /* ── COORDS BAR ── */
+    .coords-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0.4rem 2.5rem;
+      display: flex; gap: 2rem;
+      font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    }
+    .coords-bar .coord { color: var(--blue); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .page-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.6rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .page-label::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--green); border-radius: 50%;
+    }
+
+    .page-title {
+      font-family: var(--sans);
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: #E8F4FF;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+    .page-title em { font-style: normal; color: var(--green); }
+
+    /* ── STORY BOX ── */
+    .story-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 3rem;
+      position: relative;
+    }
+    /* corner brackets */
+    .story-box::before, .story-box::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      border-color: var(--green); border-style: solid;
+    }
+    .story-box::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+    .story-box::after  { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+    .story-box h2 {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+    .story-box h2:first-child { margin-top: 0; }
+
+    .story-box p {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--text);
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+    .story-box p:last-child { margin-bottom: 0; }
+
+    .story-box p span.highlight {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.75rem 0;
+    }
+
+    /* back button */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--green); }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">JOOD<span>://portfolio</span></a>
+    <ul>
+      <li><a href="index.html#about">about</a></li>
+      <li><a href="index.html#projects">projects</a></li>
+      <li><a href="index.html#skills">skills</a></li>
+      <li><a href="index.html#contact-section">contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="coords-bar">
+    <span>LAT <span class="coord">49.8728° N</span></span>
+    <span>LON <span class="coord">008.6512° E</span></span>
+    <span>FILE <span class="coord">about.html</span></span>
+    <span>STATUS <span class="coord">OPEN TO INTERNSHIPS</span></span>
+  </div>
+
+  <main>
+
+    <a href="index.html" class="back-btn">← back to portfolio</a>
+
+    <div class="page-label">about me</div>
+    <h1 class="page-title">The person behind<br/>the <em>maps & data</em></h1>
+
+    <div class="story-box">
+
+      <h2>// background</h2>
+      <p>
+        I'm Jood, a Master's student in Sustainable Urban Development at
+        <span class="highlight">TU Darmstadt, Germany</span>. My academic journey
+        started with a Bachelor's in Policy Science, where I became fascinated by how
+        urban governance decisions shape the everyday lives of people in cities —
+        who gets access to green space, clean transport, affordable housing, and
+        resilient infrastructure.
+      </p>
+      <p>
+        What I kept running into was a gap: policies were being made without fully
+        understanding the spatial dimension of problems. That's what led me to GIS.
+      </p>
+
+      <hr class="divider" />
+
+      <h2>// learning journey</h2>
+      <p>
+        I came to GIS with no technical background — just curiosity and a lot of
+        questions about cities. My first steps were through
+        <span class="highlight">QGIS and ArcGIS</span>, learning how to turn raw
+        data into maps that actually tell a story. Then came Python — first for
+        scripting, then for spatial analysis with
+        <span class="highlight">GeoPandas, Shapely, and OSMnx</span>.
+      </p>
+      <p>
+        Every project taught me something new. I learned that bad data decisions
+        look convincing on a map. I learned that projection systems matter more than
+        anyone warns you about. And I learned that the most powerful thing a
+        spatial analyst can do is ask the right question before opening any software.
+      </p>
+      <p>
+        Alongside GIS, I pursued certifications in
+        <span class="highlight">Esri GIS for Climate Action, Infrastructure LCA,
+        and CSRD Fundamentals</span> — because I believe technical skills only
+        matter when they're grounded in the right sustainability frameworks.
+      </p>
+
+      <hr class="divider" />
+
+      <h2>// why I love maps</h2>
+      <p>
+        Maps are honest in a way that other visualisations aren't. You can't hide
+        inequality on a map the way you can in a bar chart. When you layer income
+        data over green space access, or flood risk over housing density, the story
+        becomes impossible to ignore.
+      </p>
+      <p>
+        That's what draws me in — the idea that spatial analysis can make invisible
+        problems visible, and that good maps can change the conversation in a
+        planning meeting, a policy brief, or a funding application.
+      </p>
+      <p>
+        I'm currently looking for a <span class="highlight">working student position
+        or internship</span> where I can apply these skills to real projects — ideally
+        in renewable energy siting, urban sustainability, or climate adaptation planning.
+      </p>
+
+    </div>
+
+  </main>
+
+  <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2025 ]</footer>
+
+</body>
+</html>
