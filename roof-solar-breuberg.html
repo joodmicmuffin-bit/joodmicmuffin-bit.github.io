@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar Energy Potential on Roof Surfaces — Jood</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D1117;
+      --bg2:       #111820;
+      --bg3:       #152030;
+      --panel:     #0F1A24;
+      --border:    #1E3A4A;
+      --border2:   #2A5A6E;
+      --green:     #00FF88;
+      --green-dim: #00C466;
+      --green-bg:  rgba(0,255,136,0.06);
+      --blue:      #4DBBFF;
+      --blue-dim:  #2A7AAA;
+      --blue-bg:   rgba(77,187,255,0.06);
+      --text:      #C8D8E0;
+      --muted:     #4A7080;
+      --mono:      'Share Tech Mono', monospace;
+      --sans:      'Rajdhani', sans-serif;
+      --radius:    4px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-family: var(--mono); font-size: 1rem; color: var(--green); letter-spacing: 0.05em; text-decoration: none; }
+    .logo span { color: var(--muted); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      font-family: var(--mono); font-size: 0.75rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--green); }
+
+    /* ── COORDS BAR ── */
+    .coords-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0.4rem 2.5rem;
+      display: flex; gap: 2rem;
+      font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    }
+    .coords-bar .coord { color: var(--blue); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--blue); text-decoration: none;
+      margin-bottom: 2rem; transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--green); }
+
+    .page-label {
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .page-label::before {
+      content: ''; display: inline-block; width: 6px; height: 6px;
+      background: var(--green); border-radius: 50%;
+    }
+
+    .page-title {
+      font-family: var(--sans); font-size: 2.2rem; font-weight: 600;
+      color: #E8F4FF; letter-spacing: 0.02em; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .page-title em { font-style: normal; color: var(--green); }
+
+    .page-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;
+    }
+    .page-tag {
+      background: var(--green-bg); color: var(--green-dim);
+      border: 1px solid rgba(0,255,136,0.2); border-radius: 2px;
+      font-family: var(--mono); font-size: 0.7rem; padding: 0.3rem 0.7rem; letter-spacing: 0.05em;
+    }
+
+    .links-row { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 0.5rem 1.2rem; border-radius: 2px;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-primary { background: var(--green); color: #0D1117; border: 1px solid var(--green); }
+    .btn-primary:hover { background: var(--green-dim); }
+    .btn-outline { background: transparent; color: var(--blue); border: 1px solid var(--blue-dim); }
+    .btn-outline:hover { background: var(--blue-bg); border-color: var(--blue); }
+
+    /* ── MAP IMAGE ── */
+    .map-frame {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+    .map-frame img { width: 100%; height: auto; display: block; position: relative; z-index: 1; }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .stat-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: var(--mono);
+      font-size: 1.6rem;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── CONTENT BOX ── */
+    .content-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem 2.5rem;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    .content-box::before, .content-box::after {
+      content: '';
+      position: absolute; width: 14px; height: 14px;
+      border-color: var(--green); border-style: solid;
+    }
+    .content-box::before { top: 7px; left: 7px; border-width: 1px 0 0 1px; }
+    .content-box::after  { bottom: 7px; right: 7px; border-width: 0 1px 1px 0; }
+
+    .content-box h2 {
+      font-family: var(--sans); font-size: 1.05rem; font-weight: 600;
+      color: var(--green); letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .content-box p {
+      font-size: 0.92rem; line-height: 1.85; color: var(--text);
+      font-weight: 400; margin-bottom: 1rem;
+    }
+    .content-box p:last-child { margin-bottom: 0; }
+    .content-box ul {
+      list-style: none; display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .content-box ul li {
+      font-size: 0.9rem; line-height: 1.7; color: var(--text);
+      padding-left: 1.2rem; position: relative;
+    }
+    .content-box ul li::before {
+      content: '▸'; position: absolute; left: 0; color: var(--green);
+    }
+    .content-box .highlight { color: var(--blue); font-weight: 500; }
+
+    /* ── FORMULA BLOCK ── */
+    .formula {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      font-family: var(--mono); font-size: 0.82rem; color: var(--blue);
+      line-height: 1.7; margin-top: 1rem; overflow-x: auto;
+    }
+
+    /* ── TECH STACK ── */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tech-tag {
+      background: var(--blue-bg); color: var(--blue);
+      border: 1px solid rgba(77,187,255,0.2); border-radius: 2px;
+      font-family: var(--mono); font-size: 0.72rem; padding: 0.3rem 0.7rem; letter-spacing: 0.04em;
+    }
+
+    footer {
+      text-align: center; padding: 1.5rem;
+      font-family: var(--mono); font-size: 0.68rem; color: var(--muted);
+      letter-spacing: 0.06em; border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 700px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">JOOD<span>://portfolio</span></a>
+    <ul>
+      <li><a href="index.html#about">about</a></li>
+      <li><a href="index.html#projects">projects</a></li>
+      <li><a href="index.html#skills">skills</a></li>
+      <li><a href="index.html#contact-section">contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="coords-bar">
+    <span>LAT <span class="coord">49.8333° N</span></span>
+    <span>LON <span class="coord">009.0167° E</span></span>
+    <span>FILE <span class="coord">roof-solar-breuberg.html</span></span>
+    <span>STATUS <span class="coord">COMPLETE</span></span>
+  </div>
+
+  <main>
+
+    <a href="index.html#projects" class="back-btn">← back to projects</a>
+
+    <div class="page-label">project</div>
+    <h1 class="page-title">Solar Energy Potential on Roof Surfaces<br/><em>Breuberg, Hesse</em></h1>
+
+    <div class="page-tags">
+      <span class="page-tag">GIS</span>
+      <span class="page-tag">ArcGIS Pro</span>
+      <span class="page-tag">Renewable Energy</span>
+      <span class="page-tag">PVGIS</span>
+      <span class="page-tag">Solar Modeling</span>
+    </div>
+
+    <div class="links-row">
+      <a href="index.html#projects" class="btn btn-outline">Back to Portfolio</a>
+    </div>
+
+    <!-- MAP IMAGE -->
+    <div class="map-frame">
+      <img src="assets/breuberg-roofs.png" alt="Solar energy potential on roof surfaces in Breuberg, Hesse" />
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num">1,149</div>
+        <div class="stat-label">kWh/m²/year global radiation (PVGIS-SARAH3)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">18 yr</div>
+        <div class="stat-label">radiation average (2005–2022)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">EPSG:25832</div>
+        <div class="stat-label">ETRS 1989 UTM Zone 32N</div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="content-box">
+      <h2>// overview</h2>
+      <p>
+        This analysis estimates the technical solar photovoltaic potential of building rooftops
+        across the municipality of Breuberg and its surrounding villages, including a detailed
+        close-up of the <span class="highlight">Sandbach neighborhood</span>.
+      </p>
+      <p>
+        Building footprints were sourced from OpenStreetMap and reprojected to ETRS 1989 UTM Zone 32N
+        for accurate area calculation. Each building's ground-plan area was computed directly in ArcGIS Pro
+        and used as the basis for a standard solar yield formula, incorporating a location-specific global
+        radiation value of <span class="highlight">1,149.17 kWh/m²/year</span> derived from an 18-year average
+        (2005–2022) using the PVGIS-SARAH3 satellite radiation database, alongside efficiency, performance
+        ratio, and mobilization factors reflecting realistic rooftop solar deployment assumptions.
+      </p>
+    </div>
+
+    <!-- KEY FINDING -->
+    <div class="content-box">
+      <h2>// key finding</h2>
+      <p>
+        The results highlight a clear spatial pattern: large industrial and commercial rooftops,
+        particularly in the Sandbach area, account for a disproportionate share of the total technical
+        potential, while smaller residential buildings contribute modestly but consistently across the
+        settlement footprint.
+      </p>
+      <p>
+        This distinction is useful for prioritizing where rooftop solar incentive programs or municipal
+        energy planning efforts could have the greatest near-term impact.
+      </p>
+    </div>
+
+    <!-- METHODOLOGY -->
+    <div class="content-box">
+      <h2>// methodology</h2>
+      <ul>
+        <li>Building footprints acquired from <span class="highlight">OpenStreetMap via the Overpass API</span> (ODbL license)</li>
+        <li>Reprojected to <span class="highlight">ETRS 1989 UTM Zone 32N</span>, ground-plan area calculated per footprint in ArcGIS Pro geometry calculation</li>
+        <li>Global radiation of 1,149.17 kWh/m²/year (18-year average, 2005–2022) from the <span class="highlight">PVGIS-SARAH3</span> satellite database</li>
+        <li>Per-building yield modelled with a formula-driven attribute calculation, including efficiency, performance ratio, and a mobilization factor</li>
+      </ul>
+      <div class="formula">
+        P(Solar Roof) = (Gr × Bfa × Sf × Ef × Pr) × Mf  [kWh]<br>
+        = (1149.17 × Bfa × 0.20 × 0.15 × 0.25) × 0.05<br>
+        <span style="color:var(--muted)">where Bfa = building ground-plan area (m²), Mf = 0.50 × 0.10 = 0.05</span>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="content-box">
+      <h2>// skills demonstrated</h2>
+      <ul>
+        <li>Spatial data acquisition via API services (Overpass)</li>
+        <li>Coordinate reprojection and accurate area calculation</li>
+        <li>Field calculation and geometry analysis</li>
+        <li>Formula-driven attribute modeling</li>
+        <li>Cartographic layout design</li>
+      </ul>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="content-box">
+      <h2>// tech stack</h2>
+      <div class="tech-grid">
+        <span class="tech-tag">ArcGIS Pro</span>
+        <span class="tech-tag">OpenStreetMap</span>
+        <span class="tech-tag">Overpass API</span>
+        <span class="tech-tag">PVGIS 5.3</span>
+        <span class="tech-tag">PVGIS-SARAH3</span>
+        <span class="tech-tag">Esri World Imagery</span>
+      </div>
+    </div>
+
+    <!-- DATA SOURCES -->
+    <div class="content-box">
+      <h2>// data sources</h2>
+      <ul>
+        <li>Building footprints: OpenStreetMap contributors, via Overpass API (ODbL license)</li>
+        <li>Global radiation: PVGIS 5.3, PVGIS-SARAH3 database, European Commission Joint Research Centre</li>
+        <li>Basemap: Esri World Imagery</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2026 ]</footer>
+
+</body>
+</html>
