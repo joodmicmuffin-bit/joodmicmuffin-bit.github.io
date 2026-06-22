@@ -273,17 +273,6 @@
       overflow: hidden;
     }
     .project-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* animated grid bg on thumb */
-    .project-thumb::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 16px 16px;
-      opacity: 0.5;
-    }
     .thumb-placeholder {
       position: relative; z-index: 1;
       display: flex; flex-direction: column;
@@ -502,7 +491,7 @@
             <span class="project-tag">PVGIS · Building Performance</span>
             <h3>Energy Performance Analysis: Berliner Allee Student Residence</h3>
             <p>PVGIS-based building energy assessment evaluating envelope thermal performance, seasonal solar gains, and rooftop PV potential for a TU Darmstadt student housing block.</p>
-            <a href="#">view_project →</a>
+            <a href="berliner-allee.html">view_project →</a>
           </div>
         </div>
 
