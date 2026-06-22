@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Solar Energy Potential on Roof Surfaces — Jood</title>
+  <title>Solar Park Site Suitability — Jood</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -124,16 +124,33 @@
     .btn-outline { background: transparent; color: var(--blue); border: 1px solid var(--blue-dim); }
     .btn-outline:hover { background: var(--blue-bg); border-color: var(--blue); }
 
-    /* ── MAP IMAGE ── */
+    /* ── MAP IMAGE PLACEHOLDER ── */
     .map-frame {
       background: var(--bg3);
       border: 1px solid var(--border);
       border-radius: var(--radius);
+      aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
       position: relative;
       overflow: hidden;
       margin-bottom: 2.5rem;
     }
-    .map-frame img { width: 100%; height: auto; display: block; position: relative; z-index: 1; }
+    .map-frame::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 22px 22px;
+      opacity: 0.5;
+    }
+    .map-frame img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; }
+    .map-placeholder {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--blue); font-family: var(--mono); font-size: 0.75rem;
+    }
+    .map-placeholder svg { width: 40px; height: 40px; stroke: var(--blue); fill: none; stroke-width: 1.2; }
 
     /* ── STATS ROW ── */
     .stats-row {
@@ -201,16 +218,6 @@
     }
     .content-box .highlight { color: var(--blue); font-weight: 500; }
 
-    /* ── FORMULA BLOCK ── */
-    .formula {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      font-family: var(--mono); font-size: 0.82rem; color: var(--blue);
-      line-height: 1.7; margin-top: 1rem; overflow-x: auto;
-    }
-
     /* ── TECH STACK ── */
     .tech-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .tech-tag {
@@ -243,10 +250,10 @@
   </nav>
 
   <div class="coords-bar">
-    <span>LAT <span class="coord">49.8333° N</span></span>
-    <span>LON <span class="coord">009.0167° E</span></span>
-    <span>FILE <span class="coord">roof-solar-breuberg.html</span></span>
-    <span>STATUS <span class="coord">COMPLETE</span></span>
+    <span>LAT <span class="coord">50.5167° N</span></span>
+    <span>LON <span class="coord">008.7500° E</span></span>
+    <span>FILE <span class="coord">solar-suitability.html</span></span>
+    <span>STATUS <span class="coord">IN PROGRESS</span></span>
   </div>
 
   <main>
@@ -254,38 +261,43 @@
     <a href="index.html#projects" class="back-btn">← back to projects</a>
 
     <div class="page-label">project</div>
-    <h1 class="page-title">Solar Energy Potential on Roof Surfaces<br/><em>Breuberg, Hesse</em></h1>
+    <h1 class="page-title">Solar Park Site Suitability<br/><em>Wetterau, Hesse</em></h1>
 
     <div class="page-tags">
       <span class="page-tag">GIS</span>
+      <span class="page-tag">Python</span>
       <span class="page-tag">ArcGIS Pro</span>
       <span class="page-tag">Renewable Energy</span>
-      <span class="page-tag">PVGIS</span>
-      <span class="page-tag">Solar Modeling</span>
+      <span class="page-tag">MCDA</span>
     </div>
 
     <div class="links-row">
+      <a href="https://github.com/joodmicmuffin-bit/solar-suitability-hesse" target="_blank" class="btn btn-primary">View on GitHub</a>
       <a href="index.html#projects" class="btn btn-outline">Back to Portfolio</a>
     </div>
 
     <!-- MAP IMAGE -->
     <div class="map-frame">
-      <img src="assets/breuberg-roofs.png" alt="Solar energy potential on roof surfaces in Breuberg, Hesse" />
+      <!-- swap in your final map: <img src="assets/solar-map.png" alt="Solar suitability map" /> -->
+      <div class="map-placeholder">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+        <span>// final suitability map goes here</span>
+      </div>
     </div>
 
     <!-- STATS -->
     <div class="stats-row">
       <div class="stat-box">
-        <div class="stat-num">1,149</div>
-        <div class="stat-label">kWh/m²/year global radiation (PVGIS-SARAH3)</div>
+        <div class="stat-num">3,291</div>
+        <div class="stat-label">candidate sites identified</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">18 yr</div>
-        <div class="stat-label">radiation average (2005–2022)</div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">districts: Wetteraukreis & Vogelsbergkreis</div>
       </div>
       <div class="stat-box">
         <div class="stat-num">EPSG:25832</div>
-        <div class="stat-label">ETRS 1989 UTM Zone 32N</div>
+        <div class="stat-label">coordinate reference system</div>
       </div>
     </div>
 
@@ -293,39 +305,60 @@
     <div class="content-box">
       <h2>// overview</h2>
       <p>
-        This analysis estimates the technical solar photovoltaic potential of building rooftops
-        across the municipality of Breuberg and its surrounding villages, including a detailed
-        close-up of the <span class="highlight">Sandbach neighborhood</span>.
+        This project identifies suitable locations for ground-mounted photovoltaic (GMPV)
+        solar parks across the Wetteraukreis and Vogelsbergkreis districts in Hesse, Germany,
+        using a Multi-Criteria Decision Analysis (MCDA) approach with AHP-weighted scoring.
+        The two districts were deliberately chosen for their contrasting terrain — flat versus
+        hilly — to stress-test the methodology under different real-world conditions.
       </p>
       <p>
-        Building footprints were sourced from OpenStreetMap and reprojected to ETRS 1989 UTM Zone 32N
-        for accurate area calculation. Each building's ground-plan area was computed directly in ArcGIS Pro
-        and used as the basis for a standard solar yield formula, incorporating a location-specific global
-        radiation value of <span class="highlight">1,149.17 kWh/m²/year</span> derived from an 18-year average
-        (2005–2022) using the PVGIS-SARAH3 satellite radiation database, alongside efficiency, performance
-        ratio, and mobilization factors reflecting realistic rooftop solar deployment assumptions.
+        The analysis follows Germany's <span class="highlight">EEG 2023 §37 "Flächenkulisse"</span>
+        — the legal framework defining where ground-mounted solar parks are eligible for funding,
+        based on proximity to transport corridors, sealed or disadvantaged land, and other criteria.
       </p>
     </div>
 
     <!-- METHODOLOGY -->
     <div class="content-box">
       <h2>// methodology</h2>
+      <p>The workflow was split deliberately between two tools, each handling what it does best:</p>
       <ul>
-        <li>Building footprints acquired from <span class="highlight">OpenStreetMap via the Overpass API</span> (ODbL license)</li>
-        <li>Reprojected to <span class="highlight">ETRS 1989 UTM Zone 32N</span>, ground-plan area calculated per footprint in ArcGIS Pro geometry calculation</li>
-        <li>Global radiation of 1,149.17 kWh/m²/year (18-year average, 2005–2022) from the <span class="highlight">PVGIS-SARAH3</span> satellite database</li>
-        <li>Per-building yield modelled with a formula-driven attribute calculation, including efficiency, performance ratio, and a mobilization factor</li>
+        <li><span class="highlight">ArcGIS Pro</span> — all spatial data preparation: land-use filtering, buffering, and exclusion of unsuitable areas (settlements, water, forests, airports, protected habitats)</li>
+        <li><span class="highlight">Python (GeoPandas, Shapely, STRtree)</span> — parcel-level scoring and proximity analysis once the candidate sites were narrowed down</li>
+        <li>Slope and aspect were calculated <span class="highlight">per-parcel using Zonal Statistics</span> rather than raster erasure, avoiding the jagged sliver geometry that corrupted the first version of this analysis</li>
+        <li>Each candidate site was scored against criteria including settlement buffers, slope tiers, solar irradiation, distance to substations, and land-use type — weighted using an AHP framework</li>
       </ul>
-      <div class="formula">
-        P(Solar Roof) = (Gr × Bfa × Sf × Ef × Pr) × Mf  [kWh]<br>
-        = (1149.17 × Bfa × 0.20 × 0.15 × 0.25) × 0.05<br>
-        <span style="color:var(--muted)">where Bfa = building ground-plan area (m²), Mf = 0.50 × 0.10 = 0.05</span>
+    </div>
+
+    <!-- KEY LEARNINGS -->
+    <div class="content-box">
+      <h2>// key learnings</h2>
+      <ul>
+        <li>Heath terrain was reclassified as a protected habitat and excluded, despite initially appearing favourable for solar siting</li>
+        <li>Small forest copses under 3 hectares were filtered out of the 100m buffer rule, preventing excessive fragmentation of usable farmland</li>
+        <li>National data services (like the BfN WFS) can silently return empty results — falling back to state-level REST services (Hessen geodienste) proved more reliable</li>
+        <li>Mixing GIS and Python mid-workflow created confusion in the first version — keeping spatial prep and analysis cleanly separated made the second version far more maintainable</li>
+      </ul>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="content-box">
+      <h2>// tech stack</h2>
+      <div class="tech-grid">
+        <span class="tech-tag">ArcGIS Pro</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">GeoPandas</span>
+        <span class="tech-tag">Shapely</span>
+        <span class="tech-tag">STRtree</span>
+        <span class="tech-tag">OSM Data</span>
+        <span class="tech-tag">SRTM DEM</span>
+        <span class="tech-tag">EEG 2023</span>
       </div>
     </div>
 
   </main>
 
-  <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2026 ]</footer>
+  <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2025 ]</footer>
 
 </body>
 </html>
