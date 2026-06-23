@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automated Population Analysis with ModelBuilder — Jood</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D1117;
+      --bg2:       #111820;
+      --bg3:       #152030;
+      --panel:     #0F1A24;
+      --border:    #1E3A4A;
+      --border2:   #2A5A6E;
+      --green:     #00FF88;
+      --green-dim: #00C466;
+      --green-bg:  rgba(0,255,136,0.06);
+      --blue:      #4DBBFF;
+      --blue-dim:  #2A7AAA;
+      --blue-bg:   rgba(77,187,255,0.06);
+      --text:      #C8D8E0;
+      --muted:     #4A7080;
+      --mono:      'Share Tech Mono', monospace;
+      --sans:      'Rajdhani', sans-serif;
+      --radius:    4px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-family: var(--mono); font-size: 1rem; color: var(--green); letter-spacing: 0.05em; text-decoration: none; }
+    .logo span { color: var(--muted); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      font-family: var(--mono); font-size: 0.75rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--green); }
+
+    /* ── COORDS BAR ── */
+    .coords-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0.4rem 2.5rem;
+      display: flex; gap: 2rem;
+      font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    }
+    .coords-bar .coord { color: var(--blue); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--blue); text-decoration: none;
+      margin-bottom: 2rem; transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--green); }
+
+    .page-label {
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .page-label::before {
+      content: ''; display: inline-block; width: 6px; height: 6px;
+      background: var(--green); border-radius: 50%;
+    }
+
+    .page-title {
+      font-family: var(--sans); font-size: 2.2rem; font-weight: 600;
+      color: #E8F4FF; letter-spacing: 0.02em; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .page-title em { font-style: normal; color: var(--green); }
+
+    .page-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;
+    }
+    .page-tag {
+      background: var(--green-bg); color: var(--green-dim);
+      border: 1px solid rgba(0,255,136,0.2); border-radius: 2px;
+      font-family: var(--mono); font-size: 0.7rem; padding: 0.3rem 0.7rem; letter-spacing: 0.05em;
+    }
+
+    .links-row { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 0.5rem 1.2rem; border-radius: 2px;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-primary { background: var(--green); color: #0D1117; border: 1px solid var(--green); }
+    .btn-primary:hover { background: var(--green-dim); }
+    .btn-outline { background: transparent; color: var(--blue); border: 1px solid var(--blue-dim); }
+    .btn-outline:hover { background: var(--blue-bg); border-color: var(--blue); }
+
+    /* ── MAP IMAGE ── */
+    .map-frame {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+    .map-frame img { width: 100%; height: auto; display: block; position: relative; z-index: 1; }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .stat-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: var(--mono);
+      font-size: 1.5rem;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── CONTENT BOX ── */
+    .content-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem 2.5rem;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    .content-box::before, .content-box::after {
+      content: '';
+      position: absolute; width: 14px; height: 14px;
+      border-color: var(--green); border-style: solid;
+    }
+    .content-box::before { top: 7px; left: 7px; border-width: 1px 0 0 1px; }
+    .content-box::after  { bottom: 7px; right: 7px; border-width: 0 1px 1px 0; }
+
+    .content-box h2 {
+      font-family: var(--sans); font-size: 1.05rem; font-weight: 600;
+      color: var(--green); letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .content-box p {
+      font-size: 0.92rem; line-height: 1.85; color: var(--text);
+      font-weight: 400; margin-bottom: 1rem;
+    }
+    .content-box p:last-child { margin-bottom: 0; }
+    .content-box ul {
+      list-style: none; display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .content-box ul li {
+      font-size: 0.9rem; line-height: 1.7; color: var(--text);
+      padding-left: 1.2rem; position: relative;
+    }
+    .content-box ul li::before {
+      content: '▸'; position: absolute; left: 0; color: var(--green);
+    }
+    .content-box .highlight { color: var(--blue); font-weight: 500; }
+
+    /* ── TECH STACK ── */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tech-tag {
+      background: var(--blue-bg); color: var(--blue);
+      border: 1px solid rgba(77,187,255,0.2); border-radius: 2px;
+      font-family: var(--mono); font-size: 0.72rem; padding: 0.3rem 0.7rem; letter-spacing: 0.04em;
+    }
+
+    footer {
+      text-align: center; padding: 1.5rem;
+      font-family: var(--mono); font-size: 0.68rem; color: var(--muted);
+      letter-spacing: 0.06em; border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 700px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">JOOD<span>://portfolio</span></a>
+    <ul>
+      <li><a href="index.html#about">about</a></li>
+      <li><a href="index.html#projects">projects</a></li>
+      <li><a href="index.html#skills">skills</a></li>
+      <li><a href="index.html#contact-section">contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="coords-bar">
+    <span>LAT <span class="coord">50.1109° N</span></span>
+    <span>LON <span class="coord">008.6821° E</span></span>
+    <span>FILE <span class="coord">population-analysis.html</span></span>
+    <span>STATUS <span class="coord">COMPLETE</span></span>
+  </div>
+
+  <main>
+
+    <a href="index.html#projects" class="back-btn">← back to projects</a>
+
+    <div class="page-label">project</div>
+    <h1 class="page-title">Automated Population Analysis<br/><em>with ModelBuilder</em></h1>
+
+    <div class="page-tags">
+      <span class="page-tag" style="color: var(--blue); border-color: rgba(77,187,255,0.2); background: var(--blue-bg);">Academic Coursework</span>
+      <span class="page-tag">ArcGIS Pro</span>
+      <span class="page-tag">ModelBuilder</span>
+      <span class="page-tag">Geoprocessing</span>
+      <span class="page-tag">Cartography</span>
+    </div>
+
+    <div class="links-row">
+      <a href="index.html#projects" class="btn btn-outline">Back to Portfolio</a>
+    </div>
+
+    <!-- MAP IMAGE -->
+    <div class="map-frame">
+      <img src="assets/population-analysis-map.png" alt="Population per federal state and model: overview map plus Bremen, Bayern, Nordrhein-Westfalen, and Hessen city population share maps" />
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num">4</div>
+        <div class="stat-label">contrasting federal states tested</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">2%</div>
+        <div class="stat-label">population-share threshold per city</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">AGS</div>
+        <div class="stat-label">official municipality key used for joins</div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="content-box">
+      <h2>// overview</h2>
+      <p>
+        This project automates the calculation of each city's share of its federal state's total
+        population across Germany, using an <span class="highlight">ArcGIS Pro ModelBuilder</span>
+        workflow. Originally developed from a TU Darmstadt coursework exercise, it was independently
+        rebuilt for portfolio presentation using open data.
+      </p>
+      <p>
+        At its core is a reusable ModelBuilder tool, <span class="highlight">"CityCalculator"</span>,
+        that takes a federal state as input and outputs a point layer of that state's cities, each
+        attributed with its percentage of the state's total population. The model filters municipalities
+        to officially-designated cities ("Stadt"), calculates the population-share field, and names its
+        output dynamically per state.
+      </p>
+      <p>
+        The analysis was run across four contrasting states — <span class="highlight">Hessen, Bayern,
+        Bremen, and Nordrhein-Westfalen</span> — to test the model against very different population
+        distributions, with results validated against known city figures. Data preparation involved a
+        spatial join to attribute municipalities with their state, a dissolve to compute per-state totals,
+        and an attribute join using the official municipality key (AGS), resolving common issues like
+        duplicate boundary geometries along the way.
+      </p>
+      <p>
+        The final deliverable is a multi-map layout: an overview of population per federal state, plus
+        four state-specific maps distinguishing cities above and below a 2% population-share threshold.
+      </p>
+    </div>
+
+    <!-- TOOLS & SKILLS -->
+    <div class="content-box">
+      <h2>// tools &amp; data</h2>
+      <div class="tech-grid">
+        <span class="tech-tag">ArcGIS Pro</span>
+        <span class="tech-tag">ModelBuilder</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">BKG VG250-EW</span>
+      </div>
+    </div>
+
+    <div class="content-box">
+      <h2>// skills</h2>
+      <ul>
+        <li>Geoprocessing automation</li>
+        <li>Parameterized model design</li>
+        <li>Spatial joins and dissolves</li>
+        <li>Thematic cartography</li>
+        <li>Data validation</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2026 ]</footer>
+
+</body>
+</html>
