@@ -212,42 +212,45 @@
       z-index: 0;
     }
 
-    /* ── PROJECTS GRID ── */
-    .projects-grid {
+    /* ── PROJECTS GRID (image only) ── */
+    .map-section {
+      margin-bottom: 1.25rem;
+    }
+    .map-section iframe {
+      width: 100%; height: 500px; border: none; display: block;
+      border-radius: var(--radius);
+    }
+    .map-caption {
+      font-family: var(--mono); font-size: 0.65rem; color: var(--muted);
+      line-height: 1.6; margin-top: 0.65rem; letter-spacing: 0.02em;
+    }
+    .img-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
+      gap: 1rem;
+    }
+    .img-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; cursor: zoom-in; transition: border-color 0.2s;
+      position: relative;
+    }
+    .img-card:hover { border-color: var(--border2); }
+    .img-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .img-card .zoom-hint {
+      position: absolute; bottom: 7px; right: 9px;
+      font-family: var(--mono); font-size: 0.6rem; color: var(--blue);
+      background: rgba(13,17,23,.78); padding: 2px 7px; border-radius: 2px;
+      pointer-events: none;
     }
 
-    /* ── PROJECT CARD ── */
-    .project-card {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-      display: flex; flex-direction: column; transition: border-color 0.2s;
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center; cursor: zoom-out;
     }
-    .project-card:hover { border-color: var(--border2); }
-
-    .project-thumb {
-      width: 100%; aspect-ratio: 16/9;
-      background: var(--bg3); overflow: hidden; flex-shrink: 0;
-    }
-    .project-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    .project-info {
-      padding: 0.85rem 1rem 1rem;
-      display: flex; flex-direction: column; gap: 0.4rem; flex: 1;
-    }
-    .project-tag {
-      font-family: var(--mono); font-size: 0.58rem;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--green);
-    }
-    .project-info h3 { font-size: 0.86rem; font-weight: 600; line-height: 1.3; color: #D0E8F0; }
-    .project-info p { font-size: 0.74rem; color: var(--muted); line-height: 1.55; flex: 1; }
-    .project-info a {
-      font-family: var(--mono); font-size: 0.66rem; color: var(--blue);
-      text-decoration: none; padding-top: 0.3rem; letter-spacing: 0.05em; margin-top: auto;
-    }
-    .project-info a:hover { color: var(--green); }
+    #lightbox.open { display: flex; }
+    #lightbox img { max-width: 96vw; max-height: 96vh; border: 1px solid var(--border2); border-radius: var(--radius); }
+    #lightbox .close-hint { position: fixed; top: 16px; right: 20px; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
 
     /* ── CONTACT ── */
     .contact-box {
@@ -280,7 +283,7 @@
       .left-sidebar { width: 100%; height: auto; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); }
       .photo-card { height: 220px; }
       .right-main { height: auto; overflow-y: visible; }
-      .projects-grid { grid-template-columns: 1fr; }
+      .img-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -364,70 +367,30 @@
     <div class="projects-outer" id="projects">
       <div class="projects-tab">projects</div>
       <div class="projects-frame">
-        <div class="projects-grid">
 
-      <div class="project-card">
-        <div class="project-thumb">
-          <img src="assets/solar-thumbnail.png" alt="Solar Park Suitability Analysis map" />
+        <!-- 1. Interactive solar suitability map + caption -->
+        <div class="map-section">
+          <iframe src="assets/solar-webmap.html" title="Interactive solar suitability map — Wetteraukreis &amp; Vogelsbergkreis"></iframe>
+          <p class="map-caption">Multi-criteria solar park suitability analysis — Wetteraukreis &amp; Vogelsbergkreis, Hessen. 197 scored candidate sites computed with ArcGIS Pro and Python (GeoPandas, Shapely, STRtree). Darker polygons = higher suitability.</p>
         </div>
-        <div class="project-info">
-          <span class="project-tag">GIS · Python · ArcGIS Pro</span>
-          <h3>Solar Park Suitability Analysis, Wetteraukreis &amp; Vogelsbergkreis (Hesse)</h3>
-          <p>GIS suitability analysis for ground-mounted solar parks across two Hesse districts. Built with ArcGIS Pro and Python (GeoPandas, Shapely), with an interactive web map of the 197 scored sites.</p>
-          <a href="solar-suitability.html">view_project →</a>
+
+        <!-- 2. Image grid — 2 per row, clickable to enlarge -->
+        <div class="img-grid">
+          <div class="img-card" onclick="openLightbox('assets/breuberg-roofs.png')">
+            <img src="assets/breuberg-roofs.png" alt="Rooftop solar PV potential — Breuberg" />
+            <span class="zoom-hint">click to enlarge ↗</span>
+          </div>
+          <div class="img-card" onclick="openLightbox('assets/berliner-allee-poster.png')">
+            <img src="assets/berliner-allee-poster.png" alt="Berliner Allee energy performance poster" />
+            <span class="zoom-hint">click to enlarge ↗</span>
+          </div>
+          <div class="img-card" onclick="openLightbox('assets/population-analysis-map.png')">
+            <img src="assets/population-analysis-map.png" alt="Population analysis ModelBuilder" />
+            <span class="zoom-hint">click to enlarge ↗</span>
+          </div>
         </div>
+
       </div>
-
-      <div class="project-card">
-        <div class="project-thumb">
-          <img src="assets/breuberg-thumbnail.png" alt="Rooftop solar PV potential map, Breuberg" />
-        </div>
-        <div class="project-info">
-          <span class="project-tag">GIS · ArcGIS Pro · OSM</span>
-          <h3>Solar Energy Potential on Roof Surfaces — Breuberg, Hesse</h3>
-          <p>GIS analysis estimating rooftop solar PV potential across Breuberg, Hesse, using OpenStreetMap building footprints and PVGIS satellite radiation data in ArcGIS Pro.</p>
-          <a href="roof-solar-breuberg.html">view_project →</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-thumb">
-          <img src="assets/berliner-allee-thumbnail.png" alt="Energy Performance Analysis, Berliner Allee" />
-        </div>
-        <div class="project-info">
-          <span class="project-tag">Academic Coursework · PVGIS</span>
-          <h3>Energy Performance Analysis of Berliner Allee "LAB" Student Residence</h3>
-          <p>PVGIS-based building energy assessment evaluating envelope thermal performance, seasonal solar gains, and rooftop PV potential for a TU Darmstadt student housing block.</p>
-          <a href="berliner-allee.html">view_project →</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-thumb">
-          <img src="assets/population-analysis-map.png" alt="Population analysis ModelBuilder" />
-        </div>
-        <div class="project-info">
-          <span class="project-tag">Academic Coursework · ArcGIS ModelBuilder</span>
-          <h3>Automated Population Analysis with ModelBuilder</h3>
-          <p>Automated population analysis across German federal states using ArcGIS ModelBuilder, calculating and mapping each city's share of its state's total population.</p>
-          <a href="population-analysis.html">view_project →</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-thumb">
-          <img src="assets/hamburg-transit-map.png" alt="Hamburg transit walk catchment analysis" />
-        </div>
-        <div class="project-info">
-          <span class="project-tag">PostGIS · pgRouting · GTFS</span>
-          <h3>Transit Walk Accessibility Analysis — Hamburg-Altona</h3>
-          <p>Network-based 10-minute walk catchments to S-Bahn and bus stops along Hamburg's S1 line, computed with pgRouting on OSM streets and Germany's open GTFS feed.</p>
-          <a href="hamburg-transit.html">view_project →</a>
-        </div>
-      </div>
-
-    </div><!-- end projects-grid -->
-      </div><!-- end projects-frame -->
     </div><!-- end projects-outer -->
     <div class="contact-box" id="contact-section">
       <div class="panel-label">contact</div>
@@ -456,5 +419,25 @@
   </main>
 
 </div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span class="close-hint">click anywhere to close · esc to exit</span>
+  <img id="lightbox-img" src="" alt="Enlarged project map" />
+</div>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  document.getElementById('lightbox').addEventListener('click', function() {
+    this.classList.remove('open');
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+  });
+</script>
+
 </body>
 </html>
