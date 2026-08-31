@@ -54,59 +54,55 @@
 <body>
 
 <!-- DESCRIPTION PANEL -->
-<div style="position:fixed; top:16px; left:16px; z-index:9999; width:260px;
+<div style="position:fixed; top:28px; left:20px; z-index:9999; width:320px;
   background:#0F1A24; border:1px solid #1E3A4A; border-top:2px solid #00FF88;
-  border-radius:0 6px 6px 6px; font-family:'Rajdhani',sans-serif; overflow:hidden;">
+  border-radius:0 8px 8px 8px; font-family:'Rajdhani',sans-serif; overflow:hidden;">
 
-  <!-- Tab -->
-  <div style="position:absolute; top:-26px; left:-1px; background:#0F1A24;
+  <div style="position:absolute; top:-32px; left:-1px; background:#0F1A24;
     border:1px solid #1E3A4A; border-top:2px solid #00FF88; border-bottom:none;
-    border-radius:6px 6px 0 0; padding:4px 14px; font-size:0.78rem; font-weight:600;
-    color:#fff; letter-spacing:.05em; display:flex; align-items:center; gap:6px;">
-    <span style="width:6px;height:6px;background:#00FF88;border-radius:50%;display:inline-block;"></span>
+    border-radius:6px 6px 0 0; padding:6px 18px; font-size:1rem; font-weight:600;
+    color:#fff; letter-spacing:.05em; display:flex; align-items:center; gap:7px;">
+    <span style="width:8px;height:8px;background:#00FF88;border-radius:50%;display:inline-block;"></span>
     solar suitability
   </div>
 
-  <!-- Title -->
-  <div style="padding:12px 14px 8px; border-bottom:1px solid #1E3A4A;">
-    <div style="font-size:0.95rem; font-weight:700; color:#E8F4FF; line-height:1.2; margin-bottom:4px;">
+  <div style="padding:16px 18px 12px; border-bottom:1px solid #1E3A4A;">
+    <div style="font-size:1.2rem; font-weight:700; color:#E8F4FF; line-height:1.2; margin-bottom:5px;">
       Solar Park Suitability Analysis
     </div>
-    <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#4A7080; letter-spacing:.04em;">
+    <div style="font-family:'Share Tech Mono',monospace; font-size:0.75rem; color:#4A7080; letter-spacing:.04em;">
       Wetteraukreis &amp; Vogelsbergkreis, Hessen
     </div>
   </div>
 
-  <!-- Description -->
-  <div style="padding:10px 14px; border-bottom:1px solid #1E3A4A; font-size:0.75rem; color:#C8D8E0; line-height:1.6;">
+  <div style="padding:13px 18px; border-bottom:1px solid #1E3A4A; font-size:0.95rem; color:#C8D8E0; line-height:1.7;">
     Multi-criteria GIS analysis identifying suitable ground-mounted solar park locations.
-    <span style="color:#4DBBFF; font-weight:500;">197 scored sites</span> from 3,291 candidates,
+    <span style="color:#4DBBFF; font-weight:600;">197 scored sites</span> from 3,291 candidates,
     ranked on slope, irradiation, substation distance, land-use, and EEG eligibility.
     Click any polygon for details.
   </div>
 
-  <!-- Legend -->
-  <div style="padding:10px 14px; font-size:0.72rem; color:#C8D8E0;">
-    <div style="font-family:'Share Tech Mono',monospace; font-size:0.58rem; letter-spacing:.1em;
-      text-transform:uppercase; color:#4A7080; margin-bottom:7px; display:flex; align-items:center; gap:5px;">
-      <span style="width:5px;height:5px;background:#00FF88;border-radius:50%;display:inline-block;"></span>
+  <div style="padding:13px 18px; font-size:0.92rem; color:#C8D8E0;">
+    <div style="font-family:'Share Tech Mono',monospace; font-size:0.7rem; letter-spacing:.1em;
+      text-transform:uppercase; color:#4A7080; margin-bottom:9px; display:flex; align-items:center; gap:6px;">
+      <span style="width:6px;height:6px;background:#00FF88;border-radius:50%;display:inline-block;"></span>
       suitability score
     </div>
-    <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:8px;">
-      <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#1a6b1a;border-radius:2px;display:inline-block;flex-shrink:0;"></span> Very High (4.0+)</div>
-      <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#4ca64c;border-radius:2px;display:inline-block;flex-shrink:0;"></span> High (3.5–4.0)</div>
-      <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#86c986;border-radius:2px;display:inline-block;flex-shrink:0;"></span> Moderate (3.0–3.5)</div>
-      <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#c0e3c0;border-radius:2px;display:inline-block;flex-shrink:0;"></span> Low (2.5–3.0)</div>
-      <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#e8f4e8;border-radius:2px;display:inline-block;flex-shrink:0;"></span> Very Low (&lt;2.5)</div>
+    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:16px;height:16px;background:#1a6b1a;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Very High (4.0+)</div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:16px;height:16px;background:#4ca64c;border-radius:3px;display:inline-block;flex-shrink:0;"></span> High (3.5 – 4.0)</div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:16px;height:16px;background:#86c986;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Moderate (3.0 – 3.5)</div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:16px;height:16px;background:#c0e3c0;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Low (2.5 – 3.0)</div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:16px;height:16px;background:#e8f4e8;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Very Low (&lt;2.5)</div>
     </div>
-    <div style="font-family:'Share Tech Mono',monospace; font-size:0.58rem; letter-spacing:.1em;
-      text-transform:uppercase; color:#4A7080; margin-bottom:7px; display:flex; align-items:center; gap:5px;">
-      <span style="width:5px;height:5px;background:#00FF88;border-radius:50%;display:inline-block;"></span>
+    <div style="font-family:'Share Tech Mono',monospace; font-size:0.7rem; letter-spacing:.1em;
+      text-transform:uppercase; color:#4A7080; margin-bottom:9px; display:flex; align-items:center; gap:6px;">
+      <span style="width:6px;height:6px;background:#00FF88;border-radius:50%;display:inline-block;"></span>
       exclusion layers
     </div>
-    <div style="display:flex; flex-direction:column; gap:4px;">
-      <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#7e57c2;border-radius:2px;display:inline-block;flex-shrink:0;"></span> Protected area</div>
-      <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#f1c40f;border-radius:2px;display:inline-block;flex-shrink:0;"></span> Forest</div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:16px;height:16px;background:#7e57c2;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Protected area</div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:16px;height:16px;background:#f1c40f;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Forest</div>
     </div>
   </div>
 
