@@ -28,543 +28,408 @@
       --radius:    4px;
     }
 
-    body {
+    html, body {
+      height: 100%;
+      overflow: hidden;
       font-family: var(--sans);
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
       font-size: 15px;
     }
 
-    /* scanline overlay */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.03) 2px,
-        rgba(0,0,0,0.03) 4px
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
       );
       pointer-events: none;
       z-index: 9999;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 0.85rem 2.5rem;
+    /* ── PAGE LAYOUT ── */
+    .page-layout {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      height: 100vh;
     }
-    .logo {
-      font-family: var(--mono);
-      font-size: 1rem;
-      color: var(--green);
-      letter-spacing: 0.05em;
-    }
-    .logo span { color: var(--muted); }
-    nav ul { list-style: none; display: flex; gap: 2rem; }
-    nav ul a {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    nav ul a:hover { color: var(--green); }
 
-    /* ── COORDS BAR ── */
-    .coords-bar {
+    /* ── LEFT SIDEBAR ── */
+    .left-sidebar {
+      width: 260px;
+      min-width: 260px;
+      height: 100vh;
+      overflow: hidden;
       background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 0.4rem 2.5rem;
+      border-right: 1px solid var(--border);
       display: flex;
-      gap: 2rem;
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
+      flex-direction: column;
+      flex-shrink: 0;
     }
-    .coords-bar .coord { color: var(--blue); }
 
-    /* ── MAIN ── */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1.5rem 2rem 4rem;
+    /* ── PHOTO ── */
+    .photo-card {
+      width: 100%;
+      height: 185px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .photo-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top; display: block;
+    }
+
+    /* ── ABOUT ── */
+    .about-card {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .about-card h1 {
+      font-family: var(--sans);
+      font-size: 1.15rem; font-weight: 600;
+      color: #E8F4FF; margin-bottom: 0.3rem; line-height: 1.2;
+    }
+    .about-card h1 em { font-style: normal; color: var(--green); }
+    .about-card p {
+      font-size: 0.73rem; line-height: 1.5;
+      color: var(--muted); margin-bottom: 0.6rem;
+    }
+    .about-links { display: flex; flex-direction: column; gap: 0.35rem; }
+    .btn-row { display: flex; gap: 0.35rem; }
+    .btn-row .btn { flex: 1; }
+    .btn {
+      display: block; padding: 0.35rem 0.8rem; border-radius: 2px;
+      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none; text-align: center; transition: all 0.2s;
+    }
+    .btn-primary { background: var(--green); color: #0D1117; border: 1px solid var(--green); }
+    .btn-primary:hover { background: var(--green-dim); }
+    .btn-outline { background: transparent; color: var(--blue); border: 1px solid var(--blue-dim); }
+    .btn-outline:hover { background: var(--blue-bg); border-color: var(--blue); }
+
+    /* ── PANEL LABEL ── */
+    .panel-label {
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 0.55rem;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .panel-label::before {
+      content: ''; display: inline-block; width: 5px; height: 5px;
+      background: var(--green); border-radius: 50%;
+    }
+
+    /* ── SKILLS ── */
+    .skills-panel {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .skill-tag {
+      background: var(--green-bg); color: var(--green-dim);
+      border: 1px solid rgba(0,255,136,0.2); border-radius: 2px;
+      font-family: var(--mono); font-size: 0.58rem;
+      padding: 0.18rem 0.45rem; letter-spacing: 0.04em;
+    }
+
+    /* ── EDUCATION ── */
+    .education-panel {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .exp-item {
+      display: flex; flex-direction: column; gap: 0.06rem;
+      padding: 0.35rem 0; border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .exp-item:first-child { padding-top: 0; }
+    .exp-role { font-size: 0.72rem; font-weight: 600; color: var(--text); }
+    .exp-where { font-size: 0.64rem; color: var(--muted); }
+    .exp-date { font-family: var(--mono); font-size: 0.58rem; color: var(--green); }
+
+    /* ── CERTIFICATIONS ── */
+    .certs-panel { padding: 0.7rem 1rem; flex-shrink: 0; }
+    .cert-item a {
+      font-size: 0.68rem; color: var(--blue);
+      text-decoration: none; display: block; line-height: 1.5;
+    }
+    .cert-item a:hover { color: var(--green); }
+
+    /* ── RIGHT MAIN (scrollable) ── */
+    .right-main {
+      flex: 1;
+      min-width: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1.5rem 1.75rem 3rem;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
     }
 
-    /* panel header label */
-    .panel-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
+    /* ── PROJECTS FOLDER ── */
+    .projects-outer {
+      display: flex;
+      flex-direction: column;
+    }
+    .projects-tab {
+      align-self: flex-start;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--green);
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      padding: 7px 24px;
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 0.06em;
+      position: relative;
+      bottom: -1px;
+      z-index: 1;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 8px;
     }
-    .panel-label::before {
+    .projects-tab::before {
       content: '';
       display: inline-block;
-      width: 6px; height: 6px;
+      width: 7px; height: 7px;
       background: var(--green);
       border-radius: 50%;
     }
-
-    /* ── TOP ROW ── */
-    .top-row {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 1.25rem;
-      align-items: stretch;
-    }
-
-    .photo-card {
-      background: var(--panel);
+    .projects-frame {
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 0 6px 6px 6px;
+      padding: 1.5rem 1.25rem 1.25rem;
+      background: var(--panel);
       position: relative;
+      z-index: 0;
     }
-    /* corner brackets */
-    .photo-card::before, .photo-card::after,
-    .about-card::before, .about-card::after {
-      content: '';
-      position: absolute;
-      width: 12px; height: 12px;
-      border-color: var(--green);
-      border-style: solid;
-      z-index: 2;
-    }
-    .photo-card::before { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
-    .photo-card::after  { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
 
-    .photo-card img { width: 100%; height: 100%; object-fit: cover; }
-    .photo-placeholder {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 0.75rem;
-      color: var(--muted); font-family: var(--mono); font-size: 0.7rem;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-    .avatar-ring {
-      width: 72px; height: 72px; border-radius: 50%;
-      border: 1px solid var(--border2);
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg3);
-    }
-    .avatar-ring svg { width: 32px; height: 32px; stroke: var(--blue); fill: none; stroke-width: 1.2; }
-
-    .about-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem 2.25rem;
-      display: flex; flex-direction: column; justify-content: center; gap: 0.9rem;
-      position: relative;
-    }
-    .about-card::before { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
-    .about-card::after  { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
-
-    .about-card .greeting {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--green);
-    }
-    .about-card h1 {
-      font-family: var(--sans);
-      font-size: 2.2rem;
-      font-weight: 600;
-      line-height: 1.15;
-      color: #E8F4FF;
-      letter-spacing: 0.02em;
-    }
-    .about-card h1 em {
-      font-style: normal;
-      color: var(--green);
-    }
-    .about-card p {
-      font-size: 0.9rem;
-      line-height: 1.75;
-      color: var(--muted);
-      max-width: 560px;
-      font-weight: 400;
-    }
-    .about-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.25rem; }
-
-    .btn {
-      display: inline-block;
-      padding: 0.45rem 1.1rem;
-      border-radius: 2px;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--green);
-      color: #0D1117;
-      border: 1px solid var(--green);
-    }
-    .btn-primary:hover { background: var(--green-dim); }
-    .btn-outline {
-      background: transparent;
-      color: var(--blue);
-      border: 1px solid var(--blue-dim);
-    }
-    .btn-outline:hover { background: var(--blue-bg); border-color: var(--blue); }
-
-    /* ── BOTTOM ROW ── */
-    .bottom-row {
+    /* ── PROJECTS GRID ── */
+    .projects-grid {
       display: grid;
-      grid-template-columns: 1fr 280px;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1.25rem;
-      align-items: start;
     }
 
-    /* ── PROJECTS ── */
-    .projects-panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-
+    /* ── PROJECT CARD ── */
     .project-card {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: border-color 0.2s;
-      background: var(--bg2);
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      display: flex; flex-direction: column; transition: border-color 0.2s;
     }
     .project-card:hover { border-color: var(--border2); }
 
     .project-thumb {
-      background: var(--bg3);
-      display: flex; align-items: center; justify-content: center;
-      min-height: 160px;
-      position: relative;
-      overflow: hidden;
+      width: 100%; aspect-ratio: 16/9;
+      background: var(--bg3); overflow: hidden; flex-shrink: 0;
     }
-    .project-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .thumb-placeholder {
-      position: relative; z-index: 1;
-      display: flex; flex-direction: column;
-      align-items: center; gap: 6px;
-      color: var(--blue); font-family: var(--mono); font-size: 0.65rem;
-    }
-    .thumb-placeholder svg { width: 26px; height: 26px; stroke: var(--blue); fill: none; stroke-width: 1.2; }
+    .project-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .project-info {
-      padding: 0.9rem 1rem;
-      display: flex; flex-direction: column; gap: 0.35rem;
+      padding: 0.85rem 1rem 1rem;
+      display: flex; flex-direction: column; gap: 0.4rem; flex: 1;
     }
     .project-tag {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--green);
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--green);
     }
-    .project-info h3 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      line-height: 1.3;
-      color: #D0E8F0;
-    }
-    .project-info p {
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+    .project-info h3 { font-size: 0.86rem; font-weight: 600; line-height: 1.3; color: #D0E8F0; }
+    .project-info p { font-size: 0.74rem; color: var(--muted); line-height: 1.55; flex: 1; }
     .project-info a {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--blue);
-      text-decoration: none;
-      margin-top: auto;
-      padding-top: 0.3rem;
-      letter-spacing: 0.05em;
+      font-family: var(--mono); font-size: 0.66rem; color: var(--blue);
+      text-decoration: none; padding-top: 0.3rem; letter-spacing: 0.05em; margin-top: auto;
     }
     .project-info a:hover { color: var(--green); }
 
-    /* ── SIDEBAR ── */
-    .sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
-
-    .skills-panel, .experience-panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-    }
-
-    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .skill-tag {
-      background: var(--green-bg);
-      color: var(--green-dim);
-      border: 1px solid rgba(0,255,136,0.2);
-      border-radius: 2px;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      padding: 0.25rem 0.6rem;
-      letter-spacing: 0.05em;
-    }
-
-    .exp-item {
-      display: flex; flex-direction: column; gap: 0.15rem;
-      padding: 0.65rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .exp-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .exp-role { font-size: 0.82rem; font-weight: 600; color: var(--text); }
-    .exp-where { font-size: 0.75rem; color: var(--muted); }
-    .exp-date { font-family: var(--mono); font-size: 0.68rem; color: var(--green); }
-
-    /* ── CONTACT SECTION ── */
-    .contact-section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 2rem 3rem;
-    }
+    /* ── CONTACT ── */
     .contact-box {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
     }
-    .contact-box .panel-label { margin-bottom: 0; }
-    .contact-items {
-      display: flex;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-    }
-    .contact-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
+    .contact-items { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .contact-item { display: flex; flex-direction: column; gap: 0.15rem; }
     .contact-item .c-label {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
     }
     .contact-item a, .contact-item span {
-      font-size: 0.88rem;
-      color: var(--blue);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
+      font-size: 0.82rem; color: var(--blue); text-decoration: none;
+      font-weight: 500; transition: color 0.2s;
     }
     .contact-item a:hover { color: var(--green); }
 
     /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
+      font-family: var(--mono); font-size: 0.62rem; color: var(--muted);
+      letter-spacing: 0.06em; text-align: center; padding: 1rem 0 0;
       border-top: 1px solid var(--border);
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .top-row { grid-template-columns: 1fr; }
-      .bottom-row { grid-template-columns: 1fr; }
+    @media (max-width: 900px) {
+      html, body { overflow: auto; height: auto; }
+      .page-layout { flex-direction: column; height: auto; }
+      .left-sidebar { width: 100%; height: auto; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); }
+      .photo-card { height: 220px; }
+      .right-main { height: auto; overflow-y: visible; }
+      .projects-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <span class="logo">JOOD<span>://portfolio</span></span>
-    <ul>
-      <li><a href="#about">about</a></li>
-      <li><a href="#projects">projects</a></li>
-      <li><a href="#skills">skills</a></li>
-      <li><a href="#contact-section">contact</a></li>
-    </ul>
-  </nav>
+<div class="page-layout">
 
-  <div class="coords-bar">
-    <span>LAT <span class="coord">49.8728° N</span></span>
-    <span>LON <span class="coord">008.6512° E</span></span>
-    <span>LOCATION <span class="coord">DARMSTADT, DE</span></span>
-    <span>STATUS <span class="coord">OPEN TO INTERNSHIPS</span></span>
-  </div>
+  <!-- ── LEFT SIDEBAR (fixed, no scroll) ── -->
+  <aside class="left-sidebar">
 
-  <main>
+    <!-- PHOTO -->
+    <div class="photo-card">
+      <img src="assets/photo.jpeg" alt="Amjad" />
+    </div>
 
-    <!-- TOP ROW -->
-    <div class="top-row" id="about">
-
-      <div class="photo-card">
-        <img src="assets/photo.jpeg" alt="Jood" />
-      </div>
-
-      <div class="about-card">
-        <span class="greeting">// urban_planner &amp; gis_specialist</span>
-        <h1>Hi, I'm <em>Amjad!</em></h1>
-        <p>
-          I'm a master student studying Sustainable Urban Development
-          at TU Darmstadt. I love using maps, spatial data, and Python to understand
-          cities and help make them better :D
-        </p>
-        <div class="about-links">
+    <!-- ABOUT -->
+    <div class="about-card" id="about">
+      <h1>Hi, I'm <em>Amjad!</em></h1>
+      <p>I'm a master student studying Sustainable Urban Development at TU Darmstadt. I love using maps, spatial data, and Python to understand cities and help make them better :D</p>
+      <div class="about-links">
+        <div class="btn-row">
           <a href="assets/cv.pdf" target="_blank" class="btn btn-primary">Download CV</a>
           <a href="about.html" class="btn btn-primary">About Me</a>
+        </div>
+        <div class="btn-row">
           <a href="https://github.com/joodmicmuffin-bit" class="btn btn-outline">GitHub</a>
           <a href="#contact-section" class="btn btn-outline">Contact</a>
         </div>
       </div>
-
     </div>
 
-    <!-- BOTTOM ROW -->
-    <div class="bottom-row">
-
-      <!-- PROJECTS -->
-      <div class="projects-panel" id="projects">
-        <div class="panel-label" style="font-size:1.1rem;font-weight:700;color:#FFFFFF;font-family:var(--sans);letter-spacing:0.05em;">projects</div>
-
-        <div class="project-card">
-          <div class="project-thumb">
-            <img src="assets/solar-thumbnail.png" alt="Solar Park Suitability Analysis map" />
-          </div>
-          <div class="project-info">
-            <span class="project-tag">GIS · Python · ArcGIS Pro</span>
-            <h3>Solar Park Suitability Analysis, Wetteraukreis &amp; Vogelsbergkreis (Hesse)</h3>
-            <p>GIS suitability analysis for ground-mounted solar parks across two Hesse districts. Built with ArcGIS Pro and Python (GeoPandas, Shapely), with an interactive web map of the 197 scored sites.</p>
-            <a href="solar-suitability.html">view_project →</a>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-thumb">
-            <img src="assets/breuberg-thumbnail.png" alt="Rooftop solar PV potential map, Breuberg" />
-          </div>
-          <div class="project-info">
-            <span class="project-tag">GIS · ArcGIS Pro · OSM</span>
-            <h3>Solar Energy Potential on Roof Surfaces — Breuberg, Hesse</h3>
-            <p>GIS analysis estimating rooftop solar PV potential across Breuberg, Hesse, using OpenStreetMap building footprints and PVGIS satellite radiation data in ArcGIS Pro.</p>
-            <a href="roof-solar-breuberg.html">view_project →</a>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-thumb">
-            <img src="assets/berliner-allee-thumbnail.png" alt="Energy Performance Analysis, Berliner Allee Student Residence" />
-          </div>
-          <div class="project-info">
-            <span class="project-tag">Academic Coursework · PVGIS</span>
-            <h3>Energy Performance Analysis of Berliner Allee "LAB" Student Residence</h3>
-            <p>PVGIS-based building energy assessment evaluating envelope thermal performance, seasonal solar gains, and rooftop PV potential for a TU Darmstadt student housing block.</p>
-            <a href="berliner-allee.html">view_project →</a>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-thumb">
-            <img src="assets/population-analysis-map.png" alt="Population per federal state and model, ModelBuilder workflow" />
-          </div>
-          <div class="project-info">
-            <span class="project-tag">Academic Coursework · ArcGIS ModelBuilder</span>
-            <h3>Automated Population Analysis with ModelBuilder</h3>
-            <p>Automated population analysis across German federal states using ArcGIS ModelBuilder, calculating and mapping each city's share of its state's total population.</p>
-            <a href="population-analysis.html">view_project →</a>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SIDEBAR -->
-      <div class="sidebar">
-
-        <div class="skills-panel" id="skills">
-          <div class="panel-label">skills</div>
-          <div class="skills-grid">
-            <span class="skill-tag">ArcGIS</span>
-            <span class="skill-tag">QGIS</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">GeoPandas</span>
-            <span class="skill-tag">ArcPy</span>
-            <span class="skill-tag">Folium</span>
-            <span class="skill-tag">Streamlit</span>
-            <span class="skill-tag">AutoCAD</span>
-            <span class="skill-tag">SQL</span>
-            <span class="skill-tag">HTML</span>
-            <span class="skill-tag">CSS</span>
-            <span class="skill-tag">LCA</span>
-          </div>
-        </div>
-
-        <div class="experience-panel">
-          <div class="panel-label">education</div>
-
-          <div class="exp-item">
-            <span class="exp-role">MSc Sustainable Urban Development</span>
-            <span class="exp-where">TU Darmstadt, Germany</span>
-            <span class="exp-date">2023 — present</span>
-          </div>
-          <div class="exp-item">
-            <span class="exp-role">BSc Policy Science / Urban Governance</span>
-            <span class="exp-where">Ritsumeikan University, Japan</span>
-            <span class="exp-date">2016 — 2021</span>
-          </div>
-        </div>
-
-        <div class="experience-panel">
-          <div class="panel-label">certifications</div>
-
-          <div class="exp-item">
-            <a href="assets/gis-climate-action-cert.jpg" target="_blank" style="text-decoration:none;">
-              <span class="exp-role" style="color:#4DBBFF;">GIS for Climate Action</span>
-              <span class="exp-where">Esri Academy</span>
-              <span class="exp-date">2026 ↗</span>
-            </a>
-          </div>
-        </div>
-
+    <!-- SKILLS -->
+    <div class="skills-panel" id="skills">
+      <div class="panel-label">skills</div>
+      <div class="skills-grid">
+        <span class="skill-tag">ArcGIS</span>
+        <span class="skill-tag">QGIS</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">GeoPandas</span>
+        <span class="skill-tag">ArcPy</span>
+        <span class="skill-tag">Folium</span>
+        <span class="skill-tag">Streamlit</span>
+        <span class="skill-tag">AutoCAD</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">PostGIS</span>
+        <span class="skill-tag">pgRouting</span>
       </div>
     </div>
 
-  </main>
+    <!-- EDUCATION -->
+    <div class="education-panel">
+      <div class="panel-label">education</div>
+      <div class="exp-item">
+        <span class="exp-role">MSc Sustainable Urban Development</span>
+        <span class="exp-where">TU Darmstadt, Germany</span>
+        <span class="exp-date">2023 — present</span>
+      </div>
+      <div class="exp-item">
+        <span class="exp-role">BSc Policy Science</span>
+        <span class="exp-where">Ritsumeikan University, Japan</span>
+        <span class="exp-date">2016 — 2021</span>
+      </div>
+    </div>
 
-  <!-- CONTACT SECTION -->
-  <section class="contact-section" id="contact-section">
-    <div class="contact-box">
+    <!-- CERTIFICATIONS -->
+    <div class="certs-panel">
+      <div class="panel-label">certifications</div>
+      <div class="cert-item">
+        <a href="assets/gis-climate-action-cert.jpg" target="_blank">GIS for Climate Action ↗</a>
+        <a href="#" target="_blank">ArcGIS API for Python Fundamentals ↗</a>
+        <a href="#" target="_blank">ArcGIS Pro Scripting & Spatial Analysis ↗</a>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── RIGHT MAIN (scrollable) ── -->
+  <main class="right-main">
+
+    <!-- PROJECTS FOLDER -->
+    <div class="projects-outer" id="projects">
+      <div class="projects-tab">projects</div>
+      <div class="projects-frame">
+        <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="assets/solar-thumbnail.png" alt="Solar Park Suitability Analysis map" />
+        </div>
+        <div class="project-info">
+          <span class="project-tag">GIS · Python · ArcGIS Pro</span>
+          <h3>Solar Park Suitability Analysis, Wetteraukreis &amp; Vogelsbergkreis (Hesse)</h3>
+          <p>GIS suitability analysis for ground-mounted solar parks across two Hesse districts. Built with ArcGIS Pro and Python (GeoPandas, Shapely), with an interactive web map of the 197 scored sites.</p>
+          <a href="solar-suitability.html">view_project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="assets/breuberg-thumbnail.png" alt="Rooftop solar PV potential map, Breuberg" />
+        </div>
+        <div class="project-info">
+          <span class="project-tag">GIS · ArcGIS Pro · OSM</span>
+          <h3>Solar Energy Potential on Roof Surfaces — Breuberg, Hesse</h3>
+          <p>GIS analysis estimating rooftop solar PV potential across Breuberg, Hesse, using OpenStreetMap building footprints and PVGIS satellite radiation data in ArcGIS Pro.</p>
+          <a href="roof-solar-breuberg.html">view_project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="assets/berliner-allee-thumbnail.png" alt="Energy Performance Analysis, Berliner Allee" />
+        </div>
+        <div class="project-info">
+          <span class="project-tag">Academic Coursework · PVGIS</span>
+          <h3>Energy Performance Analysis of Berliner Allee "LAB" Student Residence</h3>
+          <p>PVGIS-based building energy assessment evaluating envelope thermal performance, seasonal solar gains, and rooftop PV potential for a TU Darmstadt student housing block.</p>
+          <a href="berliner-allee.html">view_project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="assets/population-analysis-map.png" alt="Population analysis ModelBuilder" />
+        </div>
+        <div class="project-info">
+          <span class="project-tag">Academic Coursework · ArcGIS ModelBuilder</span>
+          <h3>Automated Population Analysis with ModelBuilder</h3>
+          <p>Automated population analysis across German federal states using ArcGIS ModelBuilder, calculating and mapping each city's share of its state's total population.</p>
+          <a href="population-analysis.html">view_project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="assets/hamburg-transit-map.png" alt="Hamburg transit walk catchment analysis" />
+        </div>
+        <div class="project-info">
+          <span class="project-tag">PostGIS · pgRouting · GTFS</span>
+          <h3>Transit Walk Accessibility Analysis — Hamburg-Altona</h3>
+          <p>Network-based 10-minute walk catchments to S-Bahn and bus stops along Hamburg's S1 line, computed with pgRouting on OSM streets and Germany's open GTFS feed.</p>
+          <a href="hamburg-transit.html">view_project →</a>
+        </div>
+      </div>
+
+    </div><!-- end projects-grid -->
+      </div><!-- end projects-frame -->
+    </div><!-- end projects-outer -->
+    <div class="contact-box" id="contact-section">
       <div class="panel-label">contact</div>
       <div class="contact-items">
         <div class="contact-item">
@@ -585,9 +450,11 @@
         </div>
       </div>
     </div>
-  </section>
 
-  <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2025 ]</footer>
+    <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2026 ]</footer>
 
+  </main>
+
+</div>
 </body>
 </html>
