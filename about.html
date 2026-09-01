@@ -205,6 +205,13 @@
       letter-spacing: 0.06em; text-align: center; padding: 1rem 0 0;
       border-top: 1px solid var(--border);
     }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--blue); text-decoration: none;
+      transition: color 0.2s; margin-bottom: 0.5rem;
+    }
+    .back-btn:hover { color: var(--green); }
 
     @media (max-width: 900px) {
       .page-layout { flex-direction: column; }
@@ -284,6 +291,8 @@
   <!-- RIGHT MAIN -->
   <main class="right-main">
 
+    <a href="index.html" class="back-btn" style="align-self:flex-start;">← back to portfolio</a>
+
     <!-- BACKGROUND FOLDER -->
     <div class="folder-outer story-frame">
       <div class="folder-tab">about me</div>
@@ -331,6 +340,7 @@
       </div>
     </div>
 
+    <footer>[ JOOD · URBAN PLANNER · GIS SPECIALIST · DARMSTADT DE · 2026 ]</footer>
 
   </main>
 
