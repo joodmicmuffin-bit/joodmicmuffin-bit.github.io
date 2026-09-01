@@ -24,6 +24,7 @@
                     left: 0.0%;
                     top: 0.0%;
                 }
+                
                 .leaflet-container { font-size: 1rem; }
             </style>
 
@@ -55,7 +56,7 @@
 
 <!-- HEADER BAR -->
 <div style="position:fixed; top:0; left:0; right:0; height:50px; z-index:10000;
-  background:#071510; border-bottom:2px solid #00FF88;
+  background:#0d3520; border-bottom:2px solid #00FF88;
   display:flex; align-items:center; padding:0 22px; gap:12px; font-family:'Rajdhani',sans-serif;">
   <span style="width:9px;height:9px;background:#00FF88;border-radius:50%;display:inline-block;flex-shrink:0;"></span>
   <span style="font-size:1.15rem; font-weight:700; color:#FFFFFF; letter-spacing:0.04em;">
@@ -68,7 +69,7 @@
   background:#0F1A24; border-right:1px solid #1E3A4A; z-index:9999; font-family:'Rajdhani',sans-serif;">
 
   <!-- SCROLLABLE TOP -->
-  <div style="position:absolute; top:0; left:0; right:0; bottom:315px; overflow-y:auto;">
+  <div style="position:absolute; top:0; left:0; right:0; bottom:320px; overflow-y:auto;">
     <div style="padding:16px 20px; border-bottom:1px solid #1E3A4A; font-size:1rem; color:#C8D8E0; line-height:1.75;">
       Multi-criteria GIS analysis identifying suitable locations for ground-mounted photovoltaic (GMPV) solar parks across <span style="color:#00FF88; font-weight:600;">Wetteraukreis</span> and <span style="color:#00FF88; font-weight:600;">Vogelsbergkreis</span> in Hesse, Germany &mdash; two deliberately contrasting districts (flat vs. hilly) used to stress-test the methodology.
       <br/><br/>
@@ -108,12 +109,12 @@
   </div>
 
   <!-- PINNED LEGENDS -->
-  <div style="position:absolute; bottom:0; left:0; right:0; height:315px; background:#0D1A24; border-top:2px solid #2A5A6E;">
+  <div style="position:absolute; bottom:0; left:0; right:0; height:320px; background:#0D1A24; border-top:2px solid #2A5A6E;">
     <div style="padding:11px 20px; border-bottom:1px solid #1E3A4A;">
       <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; letter-spacing:.1em; text-transform:uppercase; color:#4A7080; margin-bottom:8px; display:flex; align-items:center; gap:7px;">
         <span style="width:6px;height:6px;background:#00FF88;border-radius:50%;display:inline-block;"></span>suitability score
       </div>
-      <div style="display:flex; flex-direction:column; gap:6px; font-size:0.88rem; color:#C8D8E0;">
+      <div style="display:flex; flex-direction:column; gap:6px; font-size:1rem; color:#C8D8E0;">
         <div style="display:flex;align-items:center;gap:10px;"><span style="width:15px;height:15px;background:#1a6b1a;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Very High (4.0+)</div>
         <div style="display:flex;align-items:center;gap:10px;"><span style="width:15px;height:15px;background:#4ca64c;border-radius:3px;display:inline-block;flex-shrink:0;"></span> High (3.5 &ndash; 4.0)</div>
         <div style="display:flex;align-items:center;gap:10px;"><span style="width:15px;height:15px;background:#86c986;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Moderate (3.0 &ndash; 3.5)</div>
@@ -125,7 +126,7 @@
       <div style="font-family:'Share Tech Mono',monospace; font-size:0.68rem; letter-spacing:.1em; text-transform:uppercase; color:#4A7080; margin-bottom:8px; display:flex; align-items:center; gap:7px;">
         <span style="width:6px;height:6px;background:#00FF88;border-radius:50%;display:inline-block;"></span>exclusion layers
       </div>
-      <div style="display:flex; flex-direction:column; gap:6px; font-size:0.88rem; color:#C8D8E0;">
+      <div style="display:flex; flex-direction:column; gap:6px; font-size:1rem; color:#C8D8E0;">
         <div style="display:flex;align-items:center;gap:10px;"><span style="width:15px;height:15px;background:#7e57c2;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Protected area</div>
         <div style="display:flex;align-items:center;gap:10px;"><span style="width:15px;height:15px;background:#f1c40f;border-radius:3px;display:inline-block;flex-shrink:0;"></span> Forest</div>
       </div>
@@ -190,19 +191,7 @@
 <body>
     
     
-<div style="position:fixed; bottom:25px; left:25px; z-index:9999;
-  background:white; padding:10px 12px; border:1px solid #999; border-radius:5px;
-  font:13px sans-serif; line-height:1.5">
-<b>Suitability score</b><br>
-<span style="background:#1a6b1a;width:12px;height:12px;display:inline-block"></span> Very High (4.0+)<br>
-<span style="background:#4ca64c;width:12px;height:12px;display:inline-block"></span> High (3.5-4.0)<br>
-<span style="background:#86c986;width:12px;height:12px;display:inline-block"></span> Moderate (3.0-3.5)<br>
-<span style="background:#c0e3c0;width:12px;height:12px;display:inline-block"></span> Low (2.5-3.0)<br>
-<span style="background:#e8f4e8;width:12px;height:12px;display:inline-block"></span> Very Low (&lt;2.5)<br>
-<hr style="margin:5px 0">
-<span style="background:#7e57c2;width:12px;height:12px;display:inline-block"></span> Protected area<br>
-<span style="background:#f1c40f;width:12px;height:12px;display:inline-block"></span> Forest<br>
-</div>
+
     
             <div class="folium-map" id="map_10be335520478ce771efa9bddfef1bb9" ></div>
         
@@ -229,7 +218,7 @@
         
     
             var tile_layer_5aec472ce37391721f114039674eea99 = L.tileLayer(
-                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
                 {
   "minZoom": 0,
   "maxZoom": 20,
